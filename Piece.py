@@ -7,7 +7,6 @@ class Piece:
         self.size = len(self.shape[self.rotate_state])
 
     def get_shape(self):
-        print(self.rotate_state)
         return self.shape[self.rotate_state]
 
     def rotate(self):

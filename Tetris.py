@@ -11,13 +11,15 @@ class Tetris(Board):
         height = 20
         super().__init__(width, height, left=200, top=100, cell_size=30)
         self.count = 0
+        self.spic_colors_act = ['red', 'blue', 'green', 'yellow']
+        self.spic_colors_block = ['darkred', 'darkblue', 'darkgreen', 'darkyellow']
         self.fps = fps
         self.difficulty = 30
-        self.border_color = pygame.Color('black')
+        self.border_color = pygame.Color('white')
         self.ACTIVE_PIECE = 1
         self.BLOCK = 11
-        self.ACTIVE_PIECE_COLOR = pygame.Color('red')
-        self.BLOCK_COLOR = pygame.Color('darkred')
+        self.ACTIVE_PIECE_COLOR = pygame.Color(random.choice(self.spic_colors_act))
+        self.BLOCK_COLOR = pygame.Color(random.choice(self.spic_colors_block))
         self.create_active_piece()
         self.render_active_piece()
 

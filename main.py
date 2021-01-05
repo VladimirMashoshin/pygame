@@ -18,7 +18,7 @@ if __name__ == '__main__':
             if event.type == pygame.KEYDOWN:
                 game.on_key_pressed(event.key)
 
-        screen.fill(pygame.Color('white'))
+        screen.fill(pygame.Color('black'))
         game.render(screen)
         game.update()
         pygame.display.flip()
