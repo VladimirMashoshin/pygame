@@ -2,7 +2,6 @@ from AssetManager import assetManager
 import pygame
 import random
 from game_config import config
-from Tetris import Tetris
 
 
 class StartScreen:
@@ -33,10 +32,10 @@ class StartScreen:
                              (random.random() * self.width,
                               random.random() * self.height, 1, 1))
         if self.timer > 2000:
-            self.Tetris(self.fps)
+            pass  # self.Tetris(self.fps)
 
     def draw_text(self):
-        text_lines = ["ЗАСТАВКА", "Нажмите любую клавишу"]
+        text_lines = ["Тетрис", "Нажмите любую клавишу"]
         offset_x, offset_y = 0, 0
         line_offset = 10
         color = pygame.Color('black')
@@ -67,3 +66,26 @@ class StartScreen:
 
     def update(self):
         pass
+
+
+pygame.init()
+pygame.display.set_caption('')
+width, height = 600, 600
+size = width, height
+screen = pygame.display.set_mode(size)
+clock = pygame.time.Clock()
+running = True
+game = StartScreen(60)
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            game.on_key_pressed(event.key)
+
+    screen.fill(pygame.Color('black'))
+    game.draw(screen)
+    game.update()
+    pygame.display.flip()
+    clock.tick(60)
+pygame.quit()

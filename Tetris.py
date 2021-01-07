@@ -1,25 +1,26 @@
 from Board import Board
 from Piece import Piece
 from shapes import shapes
+from Next_figure import Next_figure
 import random
 import pygame
 
 
 class Tetris(Board):
     def __init__(self, fps):
-        width = 10
+        Next_figure(fps)
+        width = 12
         height = 20
-        super().__init__(width, height, left=200, top=100, cell_size=30)
+        super().__init__(width, height, left=10, top=40, cell_size=26)
         self.count = 0
-        self.spic_colors_act = ['red', 'blue', 'green', 'yellow']
-        self.spic_colors_block = ['darkred', 'darkblue', 'darkgreen', 'darkyellow']
+        self.spic_colors_act = ['red', 'blue', 'orange', 'brown', 'purple', 'green', 'yellow']
         self.fps = fps
         self.difficulty = 30
         self.border_color = pygame.Color('white')
         self.ACTIVE_PIECE = 1
         self.BLOCK = 11
-        self.ACTIVE_PIECE_COLOR = pygame.Color(random.choice(self.spic_colors_act))
-        self.BLOCK_COLOR = pygame.Color(random.choice(self.spic_colors_block))
+        self.stack_active_piece_color = int(random.randint(0, 3))
+        self.BLOCK_COLOR = pygame.Color('white')
         self.create_active_piece()
         self.render_active_piece()
 
@@ -28,7 +29,7 @@ class Tetris(Board):
         rect = pygame.Rect(x, y, self.cell_size, self.cell_size)
         val = self.board[i][j]
         if val == self.ACTIVE_PIECE:
-            pygame.draw.rect(screen, self.ACTIVE_PIECE_COLOR, rect)
+            pygame.draw.rect(screen, self.spic_colors_act[self.stack_active_piece_color], rect)
         elif val == self.BLOCK:
             pygame.draw.rect(screen, self.BLOCK_COLOR, rect)
         else:
@@ -51,6 +52,8 @@ class Tetris(Board):
             self.render_active_piece()
 
     def active_piece_to_block(self):
+        self.stack_active_piece_color += 1
+        self.stack_active_piece_color %= 7
         shape = self.active_piece.get_shape()
         for i in range(self.active_piece.size):
             for j in range(self.active_piece.size):
@@ -100,6 +103,7 @@ class Tetris(Board):
         return random.choice(list(shapes.values()))
 
     def create_active_piece(self):
+        Next_figure(self.fps)
         self.active_piece = Piece(self.get_random_shape(), 0, 0)
 
     def can_move(self, direction):

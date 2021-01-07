@@ -1,9 +1,10 @@
 import pygame
+import random
 
 
 class Board:
     # создание поля
-    def __init__(self, width, height, left=10, top=10, cell_size=30, default_value=0):
+    def __init__(self, width, height, left=10, top=10, cell_size=25, default_value=0):
         self.width = width
         self.height = height
         self.default_value = default_value

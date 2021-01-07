@@ -1,4 +1,4 @@
 from Config import Config
 
 config = Config()
-config.set_values({'width': 550, 'height': 550, 'tile_size': 50})
+config.set_values({'width': 600, 'height': 600, 'tile_size': 50})

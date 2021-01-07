@@ -1,17 +1,17 @@
 import pygame
 from Tetris import Tetris
-from StartScreen import StartScreen
+"""from StartScreen import StartScreen"""
 
 if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('')
-    width, height = 800, 800
+    width, height = 600, 600
     size = width, height
     screen = pygame.display.set_mode(size)
     clock = pygame.time.Clock()
     fps = 60
     running = True
-    game = StartScreen(fps)
+    game = Tetris(fps)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
