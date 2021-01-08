@@ -7,14 +7,16 @@ import pygame
 
 
 class Tetris(Board):
-    def __init__(self, fps):
-        Next_figure(fps)
-        width = 12
+    def __init__(self, fps, screen):
+        self.screen = screen
+        pygame.display.update()
+        width = 10
         height = 20
         super().__init__(width, height, left=10, top=40, cell_size=26)
         self.count = 0
         self.spic_colors_act = ['red', 'blue', 'orange', 'brown', 'purple', 'green', 'yellow']
         self.fps = fps
+        Next_figure(fps)
         self.difficulty = 30
         self.border_color = pygame.Color('white')
         self.ACTIVE_PIECE = 1
@@ -104,7 +106,7 @@ class Tetris(Board):
 
     def create_active_piece(self):
         Next_figure(self.fps)
-        self.active_piece = Piece(self.get_random_shape(), 0, 0)
+        self.active_piece = Piece(self.get_random_shape(), -2, 0)
 
     def can_move(self, direction):
         actions = {pygame.K_DOWN: self.active_piece.down, pygame.K_LEFT: self.active_piece.left,
