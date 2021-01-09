@@ -5,13 +5,15 @@ from game_config import config
 
 
 class StartScreen:
-    def __init__(self, fps):
+    def __init__(self, fps, screen):
         self.fps = fps
-        self.screen, self.width, self.height = config.get_list_values('screen', 'width', 'height')
+        self.width, self.height = config.get_list_values('width', 'height')
+        self.screen = screen
         self.animate = False
         self.timer = None
+        self.render()
 
-    def draw(self, dt=None):
+    def render(self, dt=None):
         self.draw_background()
         self.draw_text()
         if self.animate:
@@ -32,13 +34,13 @@ class StartScreen:
                              (random.random() * self.width,
                               random.random() * self.height, 1, 1))
         if self.timer > 2000:
-            pass  # self.Tetris(self.fps)
+            pass #Tetris(self.fps)
 
     def draw_text(self):
         text_lines = ["Тетрис", "Нажмите любую клавишу"]
         offset_x, offset_y = 0, 0
         line_offset = 10
-        color = pygame.Color('black')
+        color = pygame.Color('white')
         font_size = 40
         font = pygame.font.Font(None, font_size)
         text_rendered_lines = []
@@ -68,24 +70,25 @@ class StartScreen:
         pass
 
 
-pygame.init()
-pygame.display.set_caption('')
-width, height = 600, 600
-size = width, height
-screen = pygame.display.set_mode(size)
-clock = pygame.time.Clock()
-running = True
-game = StartScreen(60)
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.KEYDOWN:
-            game.on_key_pressed(event.key)
-
-    screen.fill(pygame.Color('black'))
-    game.draw(screen)
-    game.update()
-    pygame.display.flip()
-    clock.tick(60)
-pygame.quit()
+# pygame.init()
+# pygame.display.set_caption('')
+# width, height = 600, 600
+# size = width, height
+# screen = pygame.display.set_mode(size)
+# clock = pygame.time.Clock()
+# running = True
+# game = StartScreen(60, screen)
+# while running:
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             running = False
+#         if event.type == pygame.KEYDOWN:
+#             #game.on_key_pressed(event.key)
+#             game.on_event(event)
+#
+#     screen.fill(pygame.Color('black'))
+#     game.draw(screen)
+#     game.update()
+#     pygame.display.flip()
+#     clock.tick(60)
+# pygame.quit()

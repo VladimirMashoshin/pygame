@@ -1,6 +1,6 @@
 import pygame
 from Tetris import Tetris
-"""from StartScreen import StartScreen"""
+from StartScreen import StartScreen
 
 if __name__ == '__main__':
     pygame.init()
@@ -11,12 +11,17 @@ if __name__ == '__main__':
     clock = pygame.time.Clock()
     fps = 60
     running = True
-    game = Tetris(fps)
+    game_started = False
+    game = StartScreen(fps, screen)
+    #game = Tetris(fps)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
+                if not game_started:
+                    game = Tetris(fps)
+                    game_started = True
                 game.on_key_pressed(event.key)
 
         screen.fill(pygame.Color('black'))

@@ -1,14 +1,14 @@
 from Board import Board
 from Piece import Piece
 from shapes import shapes
-from Next_figure import Next_figure
+#from Next_figure import Next_figure
 import random
 import pygame
 
 
 class Tetris(Board):
     def __init__(self, fps):
-        Next_figure(fps)
+        #Next_figure(fps)
         width = 12
         height = 20
         super().__init__(width, height, left=10, top=40, cell_size=26)
@@ -103,7 +103,7 @@ class Tetris(Board):
         return random.choice(list(shapes.values()))
 
     def create_active_piece(self):
-        Next_figure(self.fps)
+        #Next_figure(self.fps)
         self.active_piece = Piece(self.get_random_shape(), 0, 0)
 
     def can_move(self, direction):
