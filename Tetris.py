@@ -36,8 +36,8 @@ class Tetris(Board):
         else:
             pygame.draw.rect(screen, self.border_color, rect, width=self.border_width)
 
-
     def update(self):
+        self.display_next_figure()
         self.count += 1
         if self.count % (self.fps - self.difficulty) == 0:
             self.update_world()
@@ -51,7 +51,6 @@ class Tetris(Board):
             self.active_piece_to_block()
             self.check_complete_lines()
             self.create_active_piece()
-            Next_figure(self.next_piece.shape, self.stack_active_piece_color, self.screen)
             self.render_active_piece()
 
     def active_piece_to_block(self):
@@ -105,6 +104,9 @@ class Tetris(Board):
     def get_random_shape(self):
         return random.choice(list(shapes.values()))
 
+    def display_next_figure(self):
+        next_fig = Next_figure(self.next_piece.shape, self.stack_active_piece_color, self.screen)
+
     def create_active_piece(self):
         if len(self.next_piece.shape) < 2:
             self.active_piece = Piece(self.get_random_shape(), 0, 0)
@@ -112,9 +114,6 @@ class Tetris(Board):
         else:
             self.active_piece = self.next_piece
             self.next_piece = Piece(self.get_random_shape(), 0, 0)
-        """print(self.active_piece.shape, self.next_piece.shape)
-        print('\n')"""
-        Next_figure(self.next_piece.shape, self.stack_active_piece_color, self.screen)
 
     def can_move(self, direction):
         actions = {pygame.K_DOWN: self.active_piece.down, pygame.K_LEFT: self.active_piece.left,

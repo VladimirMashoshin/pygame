@@ -14,7 +14,7 @@ class Next_figure(Board):
         self.color = color
         self.color += 1
         self.color %= 7
-        super().__init__(width, height, left=350, top=70, cell_size=26)
+        super().__init__(width, height, left=375, top=95, cell_size=26)
         self.border_color = pygame.Color('white')
         self.render_next_piece()
 
@@ -26,7 +26,6 @@ class Next_figure(Board):
             pygame.draw.rect(screen, pygame.Color('black'), rect)
         elif val == self.default_value:
             pygame.draw.rect(screen, pygame.Color(self.spic_colors_act[self.color]), rect)
-            pygame.display.update()
         else:
             pygame.draw.rect(screen, self.border_color, rect, width=self.border_width)
 
