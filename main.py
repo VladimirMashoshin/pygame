@@ -1,5 +1,6 @@
 import pygame
 from Tetris import Tetris
+from StartScreen import StartScreen
 
 if __name__ == '__main__':
     pygame.init()
@@ -10,37 +11,22 @@ if __name__ == '__main__':
     clock = pygame.time.Clock()
     fps = 60
     running = True
-    stack_rate = 0
-    game = Tetris(fps, screen, stack_rate)
-    main_font = pygame.font.SysFont('lucidasansroman', 60)
-    title_tetris = main_font.render('TETRIS', True, pygame.Color('white'))
-    screen.blit(title_tetris, (330, 10))
-    next_title = pygame.font.SysFont('lucidasansroman', 15)
-    next_tetris = next_title.render('next figure:', True, pygame.Color('white'))
-    screen.blit(next_tetris, (390, 90))
-    rating_title = pygame.font.SysFont('lucidasansroman', 15)
-    rating_tetris = rating_title.render('current rating:', True, pygame.Color('white'))
-    screen.blit(rating_tetris, (380, 190))
-    rating_num = pygame.font.SysFont('lucidasansroman', 30)
-    rating_display = rating_num.render(str(stack_rate), True, pygame.Color('yellow'))
-    screen.blit(rating_display, (380, 220))
-    pygame.display.update()
+    game_started = False
+    game = StartScreen(fps, screen)
+    """game = Tetris(fps, screen)"""
     while running:
-        screen.blit(title_tetris, (330, 10))
-        screen.blit(next_tetris, (390, 90))
-        screen.blit(rating_tetris, (380, 190))
-        rating_num = pygame.font.SysFont('lucidasansroman', 60)
-        rating_display = rating_num.render(str(stack_rate), True, pygame.Color('yellow'))
-        screen.blit(rating_display, (410, 220))
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
+                if not game_started:
+                    game = Tetris(fps, screen)
+                    game_started = True
                 game.on_key_pressed(event.key)
         screen.fill(pygame.Color('black'))
         game.render(screen)
         game.update()
-        stack_rate = game.stack_rating
+        pygame.display.flip()
         clock.tick(fps)
     pygame.quit()
