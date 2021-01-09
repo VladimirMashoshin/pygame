@@ -7,7 +7,8 @@ import pygame
 
 
 class Tetris(Board):
-    def __init__(self, fps, screen):
+    def __init__(self, fps, screen, stack_rating):
+        self.stack_rating = stack_rating
         self.screen = screen
         width = 10
         height = 20
@@ -75,6 +76,7 @@ class Tetris(Board):
         for i in range(index, 0, -1):
             self.board[i] = self.board[i - 1]
         self.board[0] = [0] * self.width
+        self.stack_rating = 100 + int(self.stack_rating)
 
     def render_active_piece(self):
         shape = self.active_piece.get_shape()

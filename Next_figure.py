@@ -14,7 +14,7 @@ class Next_figure(Board):
         self.color = color
         self.color += 1
         self.color %= 7
-        super().__init__(width, height, left=375, top=95, cell_size=26)
+        super().__init__(width, height, left=375, top=95, cell_size=20)
         self.border_color = pygame.Color('white')
         self.render_next_piece()
 
