@@ -9,20 +9,19 @@ import pygame
 class Tetris(Board):
     def __init__(self, fps, screen):
         self.screen = screen
-        pygame.display.update()
         width = 10
         height = 20
         super().__init__(width, height, left=10, top=40, cell_size=26)
         self.count = 0
         self.spic_colors_act = ['red', 'blue', 'orange', 'brown', 'purple', 'green', 'yellow']
         self.fps = fps
-        Next_figure(fps)
         self.difficulty = 30
         self.border_color = pygame.Color('white')
         self.ACTIVE_PIECE = 1
         self.BLOCK = 11
         self.stack_active_piece_color = int(random.randint(0, 3))
         self.BLOCK_COLOR = pygame.Color('white')
+        self.next_piece = Piece([['00000', '00000', '00110', '01100', '00000']], 0, 0)
         self.create_active_piece()
         self.render_active_piece()
 
@@ -36,6 +35,7 @@ class Tetris(Board):
             pygame.draw.rect(screen, self.BLOCK_COLOR, rect)
         else:
             pygame.draw.rect(screen, self.border_color, rect, width=self.border_width)
+
 
     def update(self):
         self.count += 1
@@ -51,6 +51,7 @@ class Tetris(Board):
             self.active_piece_to_block()
             self.check_complete_lines()
             self.create_active_piece()
+            Next_figure(self.next_piece.shape, self.stack_active_piece_color, self.screen)
             self.render_active_piece()
 
     def active_piece_to_block(self):
@@ -105,8 +106,15 @@ class Tetris(Board):
         return random.choice(list(shapes.values()))
 
     def create_active_piece(self):
-        Next_figure(self.fps)
-        self.active_piece = Piece(self.get_random_shape(), -2, 0)
+        if len(self.next_piece.shape) < 2:
+            self.active_piece = Piece(self.get_random_shape(), 0, 0)
+            self.next_piece = Piece(self.get_random_shape(), 0, 0)
+        else:
+            self.active_piece = self.next_piece
+            self.next_piece = Piece(self.get_random_shape(), 0, 0)
+        """print(self.active_piece.shape, self.next_piece.shape)
+        print('\n')"""
+        Next_figure(self.next_piece.shape, self.stack_active_piece_color, self.screen)
 
     def can_move(self, direction):
         actions = {pygame.K_DOWN: self.active_piece.down, pygame.K_LEFT: self.active_piece.left,
