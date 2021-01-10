@@ -26,7 +26,7 @@ class Board:
         self.board = board
 
     def render(self, screen):
-        for i in range(self.height):
+        for i in range(1, self.height):
             for j in range(self.width):
                 self.render_cell(i, j, screen)
 

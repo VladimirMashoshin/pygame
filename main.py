@@ -46,4 +46,10 @@ if __name__ == '__main__':
         game.update()
         pygame.display.flip()
         clock.tick(fps)
+        if not game.running:
+            running = False
+            while not game.confirmed_lose:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT or event.type == pygame.KEYDOWN:
+                        game.confirm_lose()
     pygame.quit()
