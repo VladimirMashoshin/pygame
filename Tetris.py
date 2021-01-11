@@ -2,6 +2,7 @@ from Board import Board
 from Piece import Piece
 from shapes import shapes
 from Next_figure import Next_figure
+from game_config import config
 import random
 import pygame
 
@@ -9,6 +10,8 @@ import pygame
 class Tetris(Board):
     def __init__(self, fps, screen):
         self.screen = screen
+        self.running = True
+        self.confirmed_lose = False
         self.stack_rating = 0
         main_font = pygame.font.SysFont('lucidasansroman', 60)
         self.title_tetris = main_font.render('TETRIS', True, pygame.Color('white'))
@@ -67,6 +70,28 @@ class Tetris(Board):
         else:
             self.active_piece_to_block()
             self.check_complete_lines()
+            if self.check_for_lose():
+                size = 100
+                normal_size = 40
+                color = pygame.Color('Orange')
+                main_font = pygame.font.SysFont('Arial', size)
+                font = pygame.font.SysFont('Arial', normal_size)
+                text = ['Вы проиграли!', 'Нажмите любую кнопку чтобы выйти']
+                rendered = [main_font.render(text[0], True, color), font.render(text[1], True, color)]
+                rects = [rendered[0].get_rect(), rendered[1].get_rect()]
+                width = max(rects[0].width, rects[1].width)
+                height = 10 + rects[0].height + rects[1].height
+                surface = pygame.Surface((width, height), pygame.SRCALPHA)
+                rects[1].y += 110
+                for i in range(2):
+                    text = rendered[i]
+                    rect = rects[i]
+                    rect.x = width // 2 - rect.width // 2
+                    surface.blit(text, rect)
+                x = config.get_value('width') // 2 - width // 2
+                y = config.get_value('height') // 2 - height // 2
+                self.screen.blit(surface, pygame.Rect(x, y, width, height))
+                self.running = False
             self.create_active_piece()
             self.render_active_piece()
 
@@ -169,3 +194,12 @@ class Tetris(Board):
                    pygame.K_RIGHT: self.active_piece.right, pygame.K_UP: self.active_piece.rotate}
         if key in actions:
             self.move_action(actions[key], key)
+
+    def check_for_lose(self):
+        for i in range(self.width):
+            if self.board[1][i] == self.BLOCK:
+                return True
+        return False
+
+    def confirm_lose(self):
+        self.confirmed_lose = True
