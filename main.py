@@ -1,6 +1,7 @@
 import pygame
 from Tetris import Tetris
 from main_menu import main_menu
+from Sprite import Animation
 
 if __name__ == '__main__':
     pygame.init()
@@ -31,6 +32,7 @@ if __name__ == '__main__':
         menu.draw()
     stack_rating = 0
     game = Tetris(fps, screen, stack_rating)
+    knight = Animation(screen)
     while running:
         pygame.display.update()
         for event in pygame.event.get():
@@ -42,6 +44,7 @@ if __name__ == '__main__':
                     game_started = True
                 game.on_key_pressed(event.key)
         screen.fill(pygame.Color('black'))
+        knight.update()
         game.render(screen)
         game.update()
         pygame.display.flip()

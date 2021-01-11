@@ -3,12 +3,17 @@ from Piece import Piece
 from shapes import shapes
 from Next_figure import Next_figure
 from game_config import config
+from Sprite import Animation
+from Sprite import AnimatedSprite
 import random
 import pygame
 
 
 class Tetris(Board):
     def __init__(self, fps, screen, rating):
+        self.die = False
+        self.walk = True
+        self.jump = False
         self.screen = screen
         self.running = True
         self.confirmed_lose = False
@@ -50,6 +55,8 @@ class Tetris(Board):
             pygame.draw.rect(screen, self.border_color, rect, width=self.border_width)
 
     def update(self):
+        """knight = Animation(self.screen)
+        knight.update()"""
         self.display_next_figure()
         self.screen.blit(self.title_tetris, (330, 10))
         self.screen.blit(self.next_tetris, (390, 90))
@@ -110,6 +117,7 @@ class Tetris(Board):
     def check_complete_lines(self):
         for row in range(self.height):
             if self.board[row].count(self.BLOCK) == self.width:
+                animation = Animation(self.screen, False, True, False)
                 self.delete_line(row)
 
     def delete_line(self, index):
@@ -151,11 +159,11 @@ class Tetris(Board):
 
     def create_active_piece(self):
         if len(self.next_piece.shape) < 2:
-            self.active_piece = Piece(self.get_random_shape(), 0, 0)
-            self.next_piece = Piece(self.get_random_shape(), 0, 0)
+            self.active_piece = Piece(self.get_random_shape(), -1, 0)
+            self.next_piece = Piece(self.get_random_shape(), -1, 0)
         else:
             self.active_piece = self.next_piece
-            self.next_piece = Piece(self.get_random_shape(), 0, 0)
+            self.next_piece = Piece(self.get_random_shape(), -1, 0)
 
     def can_move(self, direction):
         actions = {pygame.K_DOWN: self.active_piece.down, pygame.K_LEFT: self.active_piece.left,
@@ -197,6 +205,7 @@ class Tetris(Board):
     def check_for_lose(self):
         for i in range(self.width):
             if self.board[1][i] == self.BLOCK:
+                animation = Animation(self.screen, False, False, True)
                 return True
         return False
 
