@@ -29,8 +29,8 @@ if __name__ == '__main__':
                     else:
                         running = False
         menu.draw()
-
-    game = Tetris(fps, screen)
+    stack_rating = 0
+    game = Tetris(fps, screen, stack_rating)
     while running:
         pygame.display.update()
         for event in pygame.event.get():
