@@ -32,7 +32,7 @@ if __name__ == '__main__':
         menu.draw()
     stack_rating = 0
     game = Tetris(fps, screen, stack_rating)
-    knight = Animation(screen)
+    knight = Animation(screen, True, False, False)
     while running:
         pygame.display.update()
         for event in pygame.event.get():

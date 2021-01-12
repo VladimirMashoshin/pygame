@@ -55,8 +55,6 @@ class Tetris(Board):
             pygame.draw.rect(screen, self.border_color, rect, width=self.border_width)
 
     def update(self):
-        """knight = Animation(self.screen)
-        knight.update()"""
         self.display_next_figure()
         self.screen.blit(self.title_tetris, (330, 10))
         self.screen.blit(self.next_tetris, (390, 90))
@@ -117,7 +115,7 @@ class Tetris(Board):
     def check_complete_lines(self):
         for row in range(self.height):
             if self.board[row].count(self.BLOCK) == self.width:
-                animation = Animation(self.screen, False, True, False)
+                anim = Animation(self.screen, False, True, False)
                 self.delete_line(row)
 
     def delete_line(self, index):
@@ -205,7 +203,7 @@ class Tetris(Board):
     def check_for_lose(self):
         for i in range(self.width):
             if self.board[1][i] == self.BLOCK:
-                animation = Animation(self.screen, False, False, True)
+                anim = Animation(self.screen, False, False, True)
                 return True
         return False
 
