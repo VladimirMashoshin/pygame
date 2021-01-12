@@ -4,7 +4,6 @@ from shapes import shapes
 from Next_figure import Next_figure
 from game_config import config
 from Sprite import Animation
-from Sprite import AnimatedSprite
 import random
 import pygame
 
@@ -17,6 +16,8 @@ class Tetris(Board):
         self.screen = screen
         self.running = True
         self.confirmed_lose = False
+        self.knight = Animation(screen, True, False, False)
+        self.knight.update()
         self.stack_rating = rating
         main_font = pygame.font.SysFont('lucidasansroman', 60)
         self.title_tetris = main_font.render('TETRIS', True, pygame.Color('white'))
@@ -55,6 +56,7 @@ class Tetris(Board):
             pygame.draw.rect(screen, self.border_color, rect, width=self.border_width)
 
     def update(self):
+        self.knight.update()
         self.display_next_figure()
         self.screen.blit(self.title_tetris, (330, 10))
         self.screen.blit(self.next_tetris, (390, 90))
@@ -75,6 +77,7 @@ class Tetris(Board):
             self.active_piece_to_block()
             self.check_complete_lines()
             if self.check_for_lose():
+                self.knight = Animation(self.screen, False, False, True)
                 size = 100
                 normal_size = 40
                 color = pygame.Color('Orange')
@@ -115,7 +118,8 @@ class Tetris(Board):
     def check_complete_lines(self):
         for row in range(self.height):
             if self.board[row].count(self.BLOCK) == self.width:
-                anim = Animation(self.screen, False, True, False)
+                self.knight = Animation(self.screen, False, True, False)
+                self.knight.update()
                 self.delete_line(row)
 
     def delete_line(self, index):
@@ -203,7 +207,6 @@ class Tetris(Board):
     def check_for_lose(self):
         for i in range(self.width):
             if self.board[1][i] == self.BLOCK:
-                anim = Animation(self.screen, False, False, True)
                 return True
         return False
 
