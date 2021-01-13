@@ -1,7 +1,6 @@
 import pygame
 from Tetris import Tetris
 from main_menu import main_menu
-from Sprite import Animation
 
 if __name__ == '__main__':
     pygame.init()

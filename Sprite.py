@@ -13,7 +13,7 @@ class AnimatedSprite(AnimatedSprite):
         self.game_over = False
         self.actions = {}
         self.actions['look'] = self.frames[26:32]
-        self.actions['walk'] = self.frames[10:17]
+        self.actions['walk'] = self.frames[9:23]
         self.state = 'walk'
         if self.jump:
             self.state = 'look'
@@ -21,13 +21,13 @@ class AnimatedSprite(AnimatedSprite):
             self.state = 'walk'
         self.cur_frame = self.frames.index(self.actions[self.state][0])
         self.counter = 0
-        self.screen.blit(self.frames[self.frames.index(self.actions[self.state][0])], (385, 290))
+        self.rect = self.rect.move(385, 290)
 
     def update(self):
         if self.game_over:
             return
         self.counter += 1
-        if self.counter % 3 == 0:
+        if self.counter % 5 == 0:
             self.next_frame()
             if self.state == 'look':
                 if self.cur_frame == 32:
@@ -40,7 +40,7 @@ class AnimatedSprite(AnimatedSprite):
             self.update_image()
 
     def update_image(self):
-        self.screen.blit(self.frames[self.cur_frame], (385, 290))
+        self.image = self.frames[self.cur_frame]
 
     def get_state_frames(self):
         return self.actions[self.state]
@@ -50,15 +50,15 @@ class AnimatedSprite(AnimatedSprite):
         self.cur_frame += 1
         if self.cur_frame - self.frames.index(self.actions[self.state][0]) == frames_count and self.state != 'look':
             self.cur_frame = self.frames.index(self.actions[self.state][0])
+            self.counter = 0
         elif self.cur_frame - self.frames.index(self.actions[self.state][0]) == frames_count and self.state == 'look':
             self.state = 'walk'
             self.cur_frame = self.frames.index(self.actions[self.state][0])
             self.counter = 0
-            self.screen.blit(self.frames[self.frames.index(self.actions[self.state][0])], (385, 290))
 
 
 class Animation(pygame.sprite.GroupSingle):
-    def __init__(self, screen, walk, jump, die):
+    def __init__(self, screen, walk=True, jump=False, die=False):
         self.walk = walk
         self.jump = jump
         self.die = die

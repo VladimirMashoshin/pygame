@@ -16,7 +16,7 @@ class Tetris(Board):
         self.screen = screen
         self.running = True
         self.confirmed_lose = False
-        self.knight = Animation(screen, True, False, False)
+        self.knight = Animation(screen)
         self.knight.update()
         self.stack_rating = rating
         main_font = pygame.font.SysFont('lucidasansroman', 60)
@@ -56,6 +56,7 @@ class Tetris(Board):
             pygame.draw.rect(screen, self.border_color, rect, width=self.border_width)
 
     def update(self):
+        self.knight.draw(self.screen)
         self.knight.update()
         self.display_next_figure()
         self.screen.blit(self.title_tetris, (330, 10))
@@ -80,7 +81,7 @@ class Tetris(Board):
                 self.knight = Animation(self.screen, False, False, True)
                 size = 100
                 normal_size = 40
-                color = pygame.Color('Orange')
+                color = pygame.Color('red')
                 main_font = pygame.font.SysFont('Arial', size)
                 font = pygame.font.SysFont('Arial', normal_size)
                 text = ['Вы проиграли!', 'Нажмите любую кнопку чтобы выйти']
