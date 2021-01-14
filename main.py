@@ -69,7 +69,7 @@ if __name__ == '__main__':
             pygame.display.flip()
             clock.tick(fps)
             if not game.running:
-                pygame.mixer.pause()
+                pygame.mixer.music.stop()
                 music_game_over.play()
                 running = False
                 new_max = game.get_max_rating_value()
