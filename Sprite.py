@@ -21,7 +21,7 @@ class AnimatedSprite(AnimatedSprite):
             self.state = 'walk'
         self.cur_frame = self.frames.index(self.actions[self.state][0])
         self.counter = 0
-        self.rect = self.rect.move(385, 295)
+        self.rect = self.rect.move(395, 305)
 
     def update(self):
         if self.game_over:

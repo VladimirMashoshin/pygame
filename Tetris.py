@@ -20,19 +20,19 @@ class Tetris(Board):
         self.stack_rating = rating
         main_font = pygame.font.SysFont('lucidasansroman', 60)
         self.title_tetris = main_font.render('TETRIS', True, pygame.Color('white'))
-        screen.blit(self.title_tetris, (330, 10))
+        screen.blit(self.title_tetris, (340, 30))
         next_title = pygame.font.SysFont('lucidasansroman', 15)
         self.next_tetris = next_title.render('next figure:', True, pygame.Color('white'))
-        screen.blit(self.next_tetris, (390, 90))
+        screen.blit(self.next_tetris, (400, 110))
         rating_title = pygame.font.SysFont('lucidasansroman', 15)
         self.rating_tetris = rating_title.render('current rating:', True, pygame.Color('white'))
-        screen.blit(self.rating_tetris, (380, 200))
+        screen.blit(self.rating_tetris, (390, 220))
         max_rating = pygame.font.SysFont('lucidasansroman', 15)
         self.max_rating_tetris = max_rating.render('the best rating:', True, pygame.Color('white'))
-        screen.blit(self.max_rating_tetris, (380, 425))
+        screen.blit(self.max_rating_tetris, (390, 425))
         width = 10
         height = 20
-        super().__init__(width, height, left=10, top=40, cell_size=26)
+        super().__init__(width, height, left=30, top=40, cell_size=26)
         self.count = 0
         self.spic_colors_act = ['red', 'blue', 'orange', 'brown', 'purple', 'green', 'yellow']
         self.fps = fps
@@ -61,16 +61,16 @@ class Tetris(Board):
         self.knight.draw(self.screen)
         self.knight.update()
         self.display_next_figure()
-        self.screen.blit(self.title_tetris, (330, 10))
-        self.screen.blit(self.next_tetris, (390, 90))
-        self.screen.blit(self.rating_tetris, (380, 200))
-        self.screen.blit(self.max_rating_tetris, (380, 425))
+        self.screen.blit(self.title_tetris, (340, 30))
+        self.screen.blit(self.next_tetris, (400, 110))
+        self.screen.blit(self.rating_tetris, (390, 220))
+        self.screen.blit(self.max_rating_tetris, (390, 465))
         rating_num = pygame.font.SysFont('lucidasansroman', 30)
         rating_display = rating_num.render(str(self.stack_rating), True, pygame.Color('yellow'))
-        self.screen.blit(rating_display, (380, 230))
+        self.screen.blit(rating_display, (390, 250))
         max_rating = pygame.font.SysFont('lucidasansroman', 30)
         max_rating_display = max_rating.render(str(self.max_rating), True, pygame.Color('yellow'))
-        self.screen.blit(max_rating_display, (380, 455))
+        self.screen.blit(max_rating_display, (390, 495))
         self.count += 1
         if self.count % (self.fps - self.difficulty) == 0:
             self.update_world()
@@ -171,7 +171,6 @@ class Tetris(Board):
 
     def create_active_piece(self):
         if len(self.next_piece.shape) < 1:
-            print('here')
             self.active_piece = Piece(self.get_random_shape(), -1, 0)
             self.next_piece = Piece(self.get_random_shape(), -1, 0)
         else:
