@@ -11,9 +11,6 @@ import pygame
 class Tetris(Board):
     def __init__(self, fps, screen, rating, top_rating):
         self.max_rating = top_rating
-        """self.die = False
-        self.walk = True
-        self.jump = False"""
         self.screen = screen
         self.running = True
         self.confirmed_lose = False
@@ -44,7 +41,7 @@ class Tetris(Board):
         self.BLOCK = 11
         self.stack_active_piece_color = int(random.randint(0, 3))
         self.BLOCK_COLOR = pygame.Color('white')
-        self.next_piece = Piece([['00000', '00000', '00110', '01100', '00000']], 0, 0)
+        self.next_piece = Piece([['00000', '00000', '01100', '01100', '00000']], 0, 0)
         self.create_active_piece()
         self.render_active_piece()
 
@@ -171,7 +168,8 @@ class Tetris(Board):
         next_fig = Next_figure(self.next_piece.shape, self.stack_active_piece_color, self.screen)
 
     def create_active_piece(self):
-        if len(self.next_piece.shape) < 2:
+        if len(self.next_piece.shape) < 1:
+            print('here')
             self.active_piece = Piece(self.get_random_shape(), -1, 0)
             self.next_piece = Piece(self.get_random_shape(), -1, 0)
         else:
