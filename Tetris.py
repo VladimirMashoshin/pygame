@@ -9,7 +9,8 @@ import pygame
 
 
 class Tetris(Board):
-    def __init__(self, fps, screen, rating, top_rating):
+    def __init__(self, fps, screen, rating, top_rating, music_win):
+        self.music_win = music_win
         self.max_rating = top_rating
         self.screen = screen
         self.running = True
@@ -132,6 +133,7 @@ class Tetris(Board):
         for i in range(index, 0, -1):
             self.board[i] = self.board[i - 1]
         self.board[0] = [0] * self.width
+        self.music_win.play()
         self.stack_rating = 100 + int(self.stack_rating)
         if self.stack_rating > self.max_rating:
             self.max_rating = self.stack_rating

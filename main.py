@@ -5,6 +5,7 @@ from main_menu import main_menu
 if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('Tetris game')
+    music_game_over = pygame.mixer.Sound('game_over.mp3')
     width, height = 600, 600
     size = width, height
     screen = pygame.display.set_mode(size)
@@ -14,6 +15,10 @@ if __name__ == '__main__':
     new_max = -10
     count_starts_tetris = 0
     while not exit_confirmed:
+        pygame.mixer.music.load('Music_for_game.mp3')
+        pygame.mixer.music.play(-1)
+        music_win = pygame.mixer.Sound('music_win.mp3')
+        pygame.mixer.music.set_volume(20)
         running = True
         game_started = False
         menu = main_menu(fps, screen)
@@ -45,7 +50,7 @@ if __name__ == '__main__':
         data = inp.readlines()
         max_rating = int(data[-1])
         inp.close()
-        game = Tetris(fps, screen, stack_rating, max_rating)
+        game = Tetris(fps, screen, stack_rating, max_rating, music_win)
         count_starts_tetris += 1
         while running:
             pygame.display.update()
@@ -64,6 +69,8 @@ if __name__ == '__main__':
             pygame.display.flip()
             clock.tick(fps)
             if not game.running:
+                pygame.mixer.pause()
+                music_game_over.play()
                 running = False
                 new_max = game.get_max_rating_value()
                 out = open('stack_max.txt', 'w')
