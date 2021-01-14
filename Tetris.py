@@ -9,10 +9,11 @@ import pygame
 
 
 class Tetris(Board):
-    def __init__(self, fps, screen, rating):
-        self.die = False
+    def __init__(self, fps, screen, rating, top_rating):
+        self.max_rating = top_rating
+        """self.die = False
         self.walk = True
-        self.jump = False
+        self.jump = False"""
         self.screen = screen
         self.running = True
         self.confirmed_lose = False
@@ -27,7 +28,10 @@ class Tetris(Board):
         screen.blit(self.next_tetris, (390, 90))
         rating_title = pygame.font.SysFont('lucidasansroman', 15)
         self.rating_tetris = rating_title.render('current rating:', True, pygame.Color('white'))
-        screen.blit(self.rating_tetris, (380, 190))
+        screen.blit(self.rating_tetris, (380, 200))
+        max_rating = pygame.font.SysFont('lucidasansroman', 15)
+        self.max_rating_tetris = max_rating.render('the best rating:', True, pygame.Color('white'))
+        screen.blit(self.max_rating_tetris, (380, 425))
         width = 10
         height = 20
         super().__init__(width, height, left=10, top=40, cell_size=26)
@@ -61,10 +65,14 @@ class Tetris(Board):
         self.display_next_figure()
         self.screen.blit(self.title_tetris, (330, 10))
         self.screen.blit(self.next_tetris, (390, 90))
-        self.screen.blit(self.rating_tetris, (380, 190))
+        self.screen.blit(self.rating_tetris, (380, 200))
+        self.screen.blit(self.max_rating_tetris, (380, 425))
         rating_num = pygame.font.SysFont('lucidasansroman', 30)
         rating_display = rating_num.render(str(self.stack_rating), True, pygame.Color('yellow'))
-        self.screen.blit(rating_display, (380, 220))
+        self.screen.blit(rating_display, (380, 230))
+        max_rating = pygame.font.SysFont('lucidasansroman', 30)
+        max_rating_display = max_rating.render(str(self.max_rating), True, pygame.Color('yellow'))
+        self.screen.blit(max_rating_display, (380, 455))
         self.count += 1
         if self.count % (self.fps - self.difficulty) == 0:
             self.update_world()
@@ -128,6 +136,8 @@ class Tetris(Board):
             self.board[i] = self.board[i - 1]
         self.board[0] = [0] * self.width
         self.stack_rating = 100 + int(self.stack_rating)
+        if self.stack_rating > self.max_rating:
+            self.max_rating = self.stack_rating
 
     def render_active_piece(self):
         shape = self.active_piece.get_shape()
@@ -212,4 +222,11 @@ class Tetris(Board):
         return False
 
     def confirm_lose(self):
+        new_max = self.get_max_rating_value()
+        out = open('stack_max.txt', 'w')
+        out.write(str(new_max))
+        out.close()
         self.confirmed_lose = True
+
+    def get_max_rating_value(self):
+        return self.max_rating

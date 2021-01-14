@@ -11,11 +11,17 @@ if __name__ == '__main__':
     clock = pygame.time.Clock()
     fps = 60
     exit_confirmed = False
+    new_max = -10
+    count_starts_tetris = 0
     while not exit_confirmed:
         running = True
         game_started = False
         menu = main_menu(fps, screen)
         while not game_started and running:
+            if new_max > 0 and count_starts_tetris > 0:
+                out = open('stack_max.txt', 'w')
+                out.write(str(new_max))
+                out.close()
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -34,7 +40,13 @@ if __name__ == '__main__':
                             exit_confirmed = True
             menu.draw()
         stack_rating = 0
-        game = Tetris(fps, screen, stack_rating)
+        inp = open('stack_max.txt')
+        it_spic = []
+        data = inp.readlines()
+        max_rating = int(data[-1])
+        inp.close()
+        game = Tetris(fps, screen, stack_rating, max_rating)
+        count_starts_tetris += 1
         while running:
             pygame.display.update()
             for event in pygame.event.get():
@@ -53,6 +65,10 @@ if __name__ == '__main__':
             clock.tick(fps)
             if not game.running:
                 running = False
+                new_max = game.get_max_rating_value()
+                out = open('stack_max.txt', 'w')
+                out.write(str(new_max))
+                out.close()
                 while not game.confirmed_lose:
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN:
