@@ -3,7 +3,7 @@ from AssetManager import assetManager
 import pygame
 
 
-class AnimatedSprite(AnimatedSprite):
+class DrawSprite(AnimatedSprite):
     def __init__(self, walk, jump, die, screen):
         super().__init__(assetManager.load_image('anim_sprite.jpg'), 6, 6)
         self.walk = walk
@@ -63,4 +63,4 @@ class Animation(pygame.sprite.GroupSingle):
         self.jump = jump
         self.die = die
         self.screen = screen
-        super().__init__(AnimatedSprite(self.walk, self.jump, self.die, self.screen))
+        super().__init__(DrawSprite(self.walk, self.jump, self.die, self.screen))

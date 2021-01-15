@@ -1,9 +1,7 @@
 import pygame
-import random
 
 
 class Board:
-    # создание поля
     def __init__(self, width, height, left=10, top=10, cell_size=25, default_value=0):
         self.width = width
         self.height = height
@@ -13,7 +11,6 @@ class Board:
         self.border_color = pygame.Color('white')
         self.border_width = 1
 
-    # настройка внешнего вида
     def set_view(self, left, top, cell_size):
         self.left = left
         self.top = top
